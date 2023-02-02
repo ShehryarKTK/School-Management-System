@@ -1,7 +1,9 @@
 
 package gui.with.classes.test;
 
-public class Student {
+import java.io.Serializable;
+
+public class Student implements Serializable{
      private String roll_no;
     private String name;
     private String Class;

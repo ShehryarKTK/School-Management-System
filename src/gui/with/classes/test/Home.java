@@ -12,7 +12,16 @@ import static gui.with.classes.test.StuReg.txtsubject;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import gui.with.classes.test.Teacherlist;
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Shehryar Khattak
@@ -58,6 +67,17 @@ public class Home extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("School Management System");
         setBackground(new java.awt.Color(255, 255, 255));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(255, 102, 51));
         jButton1.setText("Add Student");
@@ -284,6 +304,88 @@ public class Home extends javax.swing.JFrame {
     }
     }
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+       //System.out.println("Window Activated");
+    }//GEN-LAST:event_formWindowActivated
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+         //For Students
+        //Change directory to desired storage location
+        File f=new File("C:/Users/Sheri/Documents/School Storage/student.data");
+        try{
+            if(!f.exists()){
+                f.createNewFile();
+            }
+        
+        FileInputStream fis=new FileInputStream(f);
+         ObjectInputStream ois =new ObjectInputStream(fis);
+        ArrayList<Student> saved_students = null;
+            try {
+                saved_students = (ArrayList<Student>) ois.readObject();
+            } catch (ClassNotFoundException ex) {
+               Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        Home.school.addstudentarray(saved_students)   ;    
+                 
+       
+                
+        }catch(IOException e){
+        System.out.println(e);
+        }
+        
+     //For teacher data
+     File ft=new File("C:/Users/Sheri/Documents/School Storage/teacher.data");
+         try{
+            if(!ft.exists()){
+                ft.createNewFile();
+            }
+        
+        FileInputStream fist=new FileInputStream(ft);
+         ObjectInputStream oist =new ObjectInputStream(fist);
+        ArrayList<Teacher> saved_Teachers = null;
+            try {
+                saved_Teachers = (ArrayList<Teacher>) oist.readObject();
+            } catch (ClassNotFoundException ex) {
+               Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        Home.school.addTeacherArray(saved_Teachers)   ;    
+                 
+       
+                
+        }catch(IOException e){
+        System.out.println(e);
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        //For Students
+        //Change directory to desired storage location
+        File f=new File("C:/Users/Sheri/Documents/School Storage/student.data");
+        try{
+            FileOutputStream fos=new FileOutputStream(f);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(Home.school.students);
+            oos.close();
+            fos.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+      //For Teacher Data
+        File ft=new File("C:/Users/Sheri/Documents/School Storage/teacher.data");
+        try{
+            FileOutputStream fost=new FileOutputStream(ft);
+            ObjectOutputStream oost = new ObjectOutputStream(fost);
+            oost.writeObject(Home.school.teachers);
+            oost.close();
+            fost.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

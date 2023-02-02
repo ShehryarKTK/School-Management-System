@@ -1,6 +1,7 @@
 
 package gui.with.classes.test;
 import java.util.ArrayList;
+import java.util.*;
 
 
 public class School {
@@ -33,6 +34,11 @@ public class School {
     public  void addStudent(Student student) {
         students.add(student);
     }
-
     
+    public void addTeacherArray(ArrayList<Teacher> array){
+        this.teachers.addAll(array);
+    }
+    public void addstudentarray(ArrayList<Student> array){
+        this.students.addAll(array);
+    }
 }

@@ -1,8 +1,10 @@
 
 package gui.with.classes.test;
 
+import java.io.Serializable;
 
-public class Teacher {
+
+public class Teacher implements Serializable{
     private String id;
     private String name;
     private String subject;
